@@ -1,0 +1,40 @@
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+*.xcuserdatad
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.playground/timeline.xctimeline
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+.vscode/settings.json
+
+# Secrets
+.env
+.env.*
+*.p12
+*.mobileprovision
+
+# Build artifacts
+*.ipa
+*.dSYM.zip
+*.dSYM
