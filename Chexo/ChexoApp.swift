@@ -19,8 +19,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             container = try ModelContainer(for: TaskItem.self)
         } catch {
-            NSLog("Chexo: failed to create ModelContainer — \(error.localizedDescription). Falling back to clean store.")
-            container = try! ModelContainer(for: TaskItem.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+            NSLog("Chexo: failed to create ModelContainer — \(error.localizedDescription). Falling back to in-memory store.")
+            do {
+                container = try ModelContainer(for: TaskItem.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+            } catch {
+                fatalError("Chexo: in-memory ModelContainer failed — \(error.localizedDescription). This should never happen.")
+            }
         }
         let controller = PanelController(container: container)
         panelController = controller

@@ -1,0 +1,42 @@
+included:
+  - Chexo
+  - ChexoTests
+
+excluded:
+  - Chexo.xcodeproj
+  - Chexo/Assets.xcassets
+
+opt_in_rules:
+  - empty_count
+  - closure_spacing
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - overridden_super_call
+  - private_outlet
+  - vertical_whitespace_closing_braces
+
+disabled_rules:
+  - trailing_whitespace
+  - type_body_length
+  - file_length
+  - function_body_length
+
+line_length:
+  warning: 140
+  error: 200
+
+type_name:
+  min_length: 3
+  max_length: 40
+
+identifier_name:
+  min_length:
+    warning: 2
+  allowed_symbols: ["_"]
+
+custom_rules:
+  no_force_try:
+    name: "No force try"
+    regex: "\\btry!\\b"
+    message: "Use do/catch instead of try!"
+    severity: error

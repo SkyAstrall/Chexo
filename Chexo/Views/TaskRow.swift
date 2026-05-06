@@ -119,7 +119,7 @@ struct TaskRow: View {
                         if !focused { commitEdit() }
                     }
                     .onAppear {
-                        DispatchQueue.main.async { fieldFocused = true }
+                        Task { @MainActor in fieldFocused = true }
                     }
             } else {
                 Text(task.title)
@@ -256,7 +256,8 @@ struct TaskRow: View {
         withAnimation(.easeOut(duration: 0.15)) {
             didCopy = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+        Task {
+            try? await Task.sleep(for: .seconds(1.2))
             withAnimation(.easeOut(duration: 0.3)) {
                 didCopy = false
             }
@@ -267,7 +268,8 @@ struct TaskRow: View {
         withAnimation(.spring(response: 0.12, dampingFraction: 0.8)) {
             checkScale = 0.85
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.06) {
+        Task {
+            try? await Task.sleep(for: .seconds(0.06))
             withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
                 checkScale = 1.1
                 task.isCompleted.toggle()
@@ -275,8 +277,7 @@ struct TaskRow: View {
             if isFocused && task.isCompleted {
                 onClearFocus()
             }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            try? await Task.sleep(for: .seconds(0.19))
             withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
                 checkScale = 1.0
             }
