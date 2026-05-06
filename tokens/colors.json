@@ -32,16 +32,17 @@
       "900": { "$value": "#1C1A16", "$type": "color" }
     },
     "semantic": {
+      "$type": "color",
       "bg": {
-        "surface":    { "$value": "{color.neutral.0}", "$type": "color" },
-        "muted":      { "$value": "{color.neutral.50}", "$type": "color" }
+        "surface":    { "$value": "{color.neutral.0}" },
+        "muted":      { "$value": "{color.neutral.50}" }
       },
       "text": {
-        "primary":    { "$value": "{color.neutral.900}", "$type": "color" },
-        "muted":      { "$value": "{color.neutral.500}", "$type": "color" }
+        "primary":    { "$value": "{color.neutral.900}" },
+        "muted":      { "$value": "{color.neutral.500}" }
       },
       "border": {
-        "default":    { "$value": "{color.neutral.200}", "$type": "color" }
+        "default":    { "$value": "{color.neutral.200}" }
       }
     }
   }

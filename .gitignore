@@ -6,6 +6,7 @@ build/
 xcuserdata/
 *.xcworkspace/xcuserdata/
 *.playground/timeline.xctimeline
+Chexo.xcodeproj/
 
 # Swift Package Manager
 .build/
@@ -27,6 +28,7 @@ Package.resolved
 *.swo
 *~
 .vscode/settings.json
+.claude/
 
 # Secrets
 .env

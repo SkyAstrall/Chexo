@@ -57,7 +57,7 @@ A floating task panel that's always one click away. Add tasks, focus on one at a
 
 ✓ Floating panel — stays above your windows, drag it anywhere on screen
 ✓ Focus mode — isolate a single task and zero in until it's done
-✓ Keyboard-first — press ⌘N to add a task, Esc to dismiss
+✓ Keyboard-first — press ⌘N to start typing a task, Esc to dismiss
 ✓ Progress tracking — see your completion rate at a glance
 ✓ Lightweight — no accounts, no sync, no subscriptions. Just tasks.
 

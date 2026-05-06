@@ -166,7 +166,7 @@ struct FloatingPanelView: View {
                     Text("No tasks yet")
                         .font(.system(size: 12))
                         .foregroundStyle(.tertiary)
-                    Text("Press \u{2318}N to add one")
+                    Text("Press \u{2318}N to start typing")
                         .font(.system(size: 10))
                         .foregroundStyle(.quaternary)
                 }

@@ -21,7 +21,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Sets up the SwiftData container and shows the floating panel on launch.
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let container = try! ModelContainer(for: TaskItem.self)
+        let container: ModelContainer
+        do {
+            container = try ModelContainer(for: TaskItem.self)
+        } catch {
+            NSLog("Chexo: failed to create ModelContainer — \(error.localizedDescription). Falling back to clean store.")
+            container = try! ModelContainer(for: TaskItem.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        }
         let controller = PanelController(container: container)
         panelController = controller
         controller.show()

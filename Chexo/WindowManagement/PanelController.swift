@@ -8,6 +8,8 @@ import SwiftData
 /// floating panel on click, and persists the panel's screen position across launches.
 @MainActor
 final class PanelController: NSObject {
+    private static let panelWidth: CGFloat = 320
+    private static let panelHeight: CGFloat = 480
     private let statusItem: NSStatusItem
     private var panel: FloatingPanel<AnyView>?
     private let container: ModelContainer
@@ -69,7 +71,7 @@ final class PanelController: NSObject {
     private func ensurePanel() {
         guard panel == nil else { return }
 
-        let rect = NSRect(x: 0, y: 0, width: 320, height: 480)
+        let rect = NSRect(x: 0, y: 0, width: Self.panelWidth, height: Self.panelHeight)
         panel = FloatingPanel(rect: rect) {
             AnyView(
                 FloatingPanelView(onCollapse: { [weak self] in
@@ -98,9 +100,9 @@ final class PanelController: NSObject {
 
     /// Returns the default panel frame, positioned at the bottom-right of the main screen.
     private func defaultFrame() -> NSRect {
-        guard let screen = NSScreen.main else { return NSRect(x: 0, y: 0, width: 320, height: 480) }
+        guard let screen = NSScreen.main else { return NSRect(x: 0, y: 0, width: Self.panelWidth, height: Self.panelHeight) }
         let visible = screen.visibleFrame
-        return NSRect(x: visible.maxX - 340, y: visible.minY + 20, width: 320, height: 480)
+        return NSRect(x: visible.maxX - Self.panelWidth - 20, y: visible.minY + 20, width: Self.panelWidth, height: Self.panelHeight)
     }
 
     /// Listens for panel move and resize events to persist the frame.

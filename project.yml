@@ -20,8 +20,12 @@ targets:
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "6.0"
         GENERATE_INFOPLIST_FILE: NO
-        CODE_SIGN_IDENTITY: "-"
-        ENABLE_APP_SANDBOX: NO
-        SWIFT_STRICT_CONCURRENCY: minimal
+        ENABLE_APP_SANDBOX: YES
+        SWIFT_STRICT_CONCURRENCY: complete
+      configs:
+        Debug:
+          CODE_SIGN_IDENTITY: "-"
+        Release:
+          CODE_SIGN_IDENTITY: "Apple Development"
     entitlements:
       path: Chexo/Chexo.entitlements
