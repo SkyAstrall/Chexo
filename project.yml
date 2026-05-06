@@ -29,3 +29,23 @@ targets:
           CODE_SIGN_IDENTITY: "Apple Development"
     entitlements:
       path: Chexo/Chexo.entitlements
+    scheme:
+      testTargets:
+        - ChexoTests
+
+  ChexoTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - ChexoTests
+    dependencies:
+      - target: Chexo
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.skyastrall.ChexoTests
+        SWIFT_VERSION: "6.0"
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: YES
+      configs:
+        Debug:
+          CODE_SIGN_IDENTITY: "-"

@@ -11,11 +11,9 @@ final class PanelController: NSObject {
     private static let panelWidth: CGFloat = 320
     private static let panelHeight: CGFloat = 480
     private let statusItem: NSStatusItem
-    private var panel: FloatingPanel<AnyView>?
+    private var panel: FloatingPanel?
     private let container: ModelContainer
 
-    /// Creates a controller with the given data container and sets up the menu bar icon.
-    /// - Parameter container: The SwiftData model container for task persistence.
     init(container: ModelContainer) {
         self.container = container
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -34,18 +32,15 @@ final class PanelController: NSObject {
         }
     }
 
-    /// Creates the panel if needed and fades it in.
     func show() {
         ensurePanel()
         panel?.animatedOrderFront()
     }
 
-    /// Fades the panel out and removes it from the screen.
     func collapse() {
         panel?.animatedOrderOut()
     }
 
-    /// Toggles the panel between visible and hidden.
     @objc private func toggle() {
         if let panel, panel.isVisible {
             collapse()
@@ -54,7 +49,6 @@ final class PanelController: NSObject {
         }
     }
 
-    /// Updates the menu bar icon to reflect the current focus state.
     private func updateStatusIcon() {
         let hasFocus: Bool
         if let data = UserDefaults.standard.data(forKey: "focusedTaskIDData") {
@@ -67,24 +61,20 @@ final class PanelController: NSObject {
         statusItem.button?.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: description)
     }
 
-    /// Lazily creates the floating panel with the task view and restores its saved position.
     private func ensurePanel() {
         guard panel == nil else { return }
 
         let rect = NSRect(x: 0, y: 0, width: Self.panelWidth, height: Self.panelHeight)
         panel = FloatingPanel(rect: rect) {
-            AnyView(
-                FloatingPanelView(onCollapse: { [weak self] in
-                    self?.collapse()
-                })
-                .modelContainer(self.container)
-            )
+            FloatingPanelView(onCollapse: { [weak self] in
+                self?.collapse()
+            })
+            .modelContainer(self.container)
         }
         restoreFrame()
         observeFrameChanges()
     }
 
-    /// Restores the panel to its last saved position, or falls back to the default.
     private func restoreFrame() {
         guard let panel else { return }
 
@@ -98,14 +88,12 @@ final class PanelController: NSObject {
         panel.setFrame(defaultFrame(), display: false)
     }
 
-    /// Returns the default panel frame, positioned at the bottom-right of the main screen.
     private func defaultFrame() -> NSRect {
         guard let screen = NSScreen.main else { return NSRect(x: 0, y: 0, width: Self.panelWidth, height: Self.panelHeight) }
         let visible = screen.visibleFrame
         return NSRect(x: visible.maxX - Self.panelWidth - 20, y: visible.minY + 20, width: Self.panelWidth, height: Self.panelHeight)
     }
 
-    /// Listens for panel move and resize events to persist the frame.
     private func observeFrameChanges() {
         guard let panel else { return }
 
@@ -117,7 +105,6 @@ final class PanelController: NSObject {
         }
     }
 
-    /// Persists the panel's current frame to UserDefaults.
     private func saveFrame() {
         guard let panel else { return }
         UserDefaults.standard.set(NSStringFromRect(panel.frame), forKey: "panelFrame")

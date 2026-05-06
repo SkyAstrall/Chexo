@@ -1,26 +1,13 @@
 import SwiftUI
 import SwiftData
 
-/// A single row in the task list displaying a checkbox, title, and hover actions.
-///
-/// Supports inline editing via double-click, focus selection, copying, and deletion.
-/// Truncates long titles to two lines with a "Show more" toggle.
 struct TaskRow: View {
     @Bindable var task: TaskItem
 
-    /// Whether this task is the currently focused task.
     let isFocused: Bool
-
-    /// Whether any task in the list is currently focused (dims non-focused rows).
     let anyTaskFocused: Bool
-
-    /// Callback to set this task as the focused task.
     let onSetFocus: () -> Void
-
-    /// Callback to clear the current focus.
     let onClearFocus: () -> Void
-
-    /// Callback to delete this task.
     let onDelete: () -> Void
 
     @State private var isHovered = false
@@ -32,10 +19,8 @@ struct TaskRow: View {
     @State private var collapsedHeight: CGFloat = 0
     @FocusState private var fieldFocused: Bool
 
-    /// The maximum number of lines shown before truncation.
     private let collapsedLineLimit = 2
 
-    /// Whether the full text height exceeds the collapsed height, indicating truncation.
     private var isTruncated: Bool { fullHeight > collapsedHeight + 0.5 }
 
     var body: some View {
@@ -67,13 +52,11 @@ struct TaskRow: View {
         .contextMenu { focusContextMenu }
     }
 
-    /// The opacity applied to the row based on whether another task is focused.
     private var opacityForFocus: Double {
         if anyTaskFocused && !isFocused { return 0.4 }
         return 1.0
     }
 
-    /// The right-click context menu for focus, edit, copy, and delete actions.
     @ViewBuilder
     private var focusContextMenu: some View {
         if !task.isCompleted {
@@ -91,7 +74,6 @@ struct TaskRow: View {
 
     // MARK: - Checkbox
 
-    /// The circular checkbox toggle for marking the task complete or incomplete.
     private var checkbox: some View {
         Button(action: toggleComplete) {
             Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
@@ -105,7 +87,6 @@ struct TaskRow: View {
         .padding(.top, 1)
     }
 
-    /// The color of the checkbox based on task state and focus.
     private var checkBoxColor: Color {
         if task.isCompleted { return .green }
         if isFocused { return Color.accentColor.opacity(0.7) }
@@ -114,18 +95,15 @@ struct TaskRow: View {
 
     // MARK: - Text
 
-    /// The font used for the task title, weighted heavier when focused.
     private var titleFont: Font {
         .system(size: 13, weight: isFocused ? .medium : .regular)
     }
 
-    /// The text color, dimmed for completed tasks.
     private var textColor: Color {
         if task.isCompleted { return .secondary }
         return isFocused ? .primary : .primary.opacity(0.85)
     }
 
-    /// The task title text, either as an editable field or a read-only label.
     @ViewBuilder
     private var textContent: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -171,7 +149,6 @@ struct TaskRow: View {
         }
     }
 
-    /// Hidden text measurers that detect whether the title is truncated at the collapsed line limit.
     @ViewBuilder
     private var truncationMeasurer: some View {
         ZStack(alignment: .topLeading) {
@@ -206,14 +183,12 @@ struct TaskRow: View {
         .allowsHitTesting(false)
     }
 
-    /// Enters inline editing mode for the task title.
     private func beginEdit() {
         guard !task.isCompleted else { return }
         isExpanded = true
         isEditing = true
     }
 
-    /// Commits the edit by trimming whitespace from the title and exiting editing mode.
     private func commitEdit() {
         let trimmed = task.title.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed != task.title {
@@ -224,7 +199,6 @@ struct TaskRow: View {
 
     // MARK: - Actions
 
-    /// Hover-revealed action buttons for focus, copy, and delete.
     @ViewBuilder
     private var actionButtons: some View {
         if isHovered || didCopy {
@@ -261,7 +235,6 @@ struct TaskRow: View {
         }
     }
 
-    /// The row background highlight, varied by focus, hover, and completion state.
     @ViewBuilder
     private var rowBackground: some View {
         if isFocused && !task.isCompleted {
@@ -273,12 +246,10 @@ struct TaskRow: View {
         }
     }
 
-    /// Toggles focus on or off for this task.
     private func toggleFocus() {
         if isFocused { onClearFocus() } else { onSetFocus() }
     }
 
-    /// Copies the task title to the system pasteboard with a brief confirmation indicator.
     private func copyTask() {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(task.title, forType: .string)
@@ -292,7 +263,6 @@ struct TaskRow: View {
         }
     }
 
-    /// Animates the checkbox through a scale-down, pop, and settle sequence, then toggles completion.
     private func toggleComplete() {
         withAnimation(.spring(response: 0.12, dampingFraction: 0.8)) {
             checkScale = 0.85
